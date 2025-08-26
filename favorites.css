@@ -1,0 +1,216 @@
+/* Global */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #faf8f2, #f1eee6);
+    color: #2b2b2b;
+}
+h1, h2, h3, h4, h5 {
+    font-family: 'Merriweather', serif;
+    color: #5a5a42;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #5f634f; /* elegant dark olive */
+}
+.navbar-brand, .nav-link {
+    color: #fdfdfd !important;
+    font-weight: 500;
+}
+.navbar-brand {
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+.navbar-brand:hover {
+    color: #b7b377 !important;
+    transform: scale(1.1);
+    text-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+}
+.nav-link {
+    position: relative;
+    transition: all 0.3s ease;
+}
+.nav-link:hover {
+    transform: translateY(-3px);
+    color: #b7b377 !important;
+}
+.nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: #b7b377;
+    transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Hero */
+.hero {
+    background: url('images/favorite_food.jpg') center/cover no-repeat;
+    color: white;
+    height: 55vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+.hero::after {
+    content: "";
+    position: absolute;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.5);
+}
+.hero .container {
+    position: relative;
+    z-index: 2;
+}
+.hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px 24px;
+    border-radius: 12px;
+}
+
+/* Buttons */
+.btn-custom {
+    background-color: #b7b377; /* khaki */
+    color: #2b2b2b;
+    border-radius: 30px;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    border: none;
+}
+.btn-custom:hover {
+    background-color: #8c8a62;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+}
+.btn-danger-custom {
+    background-color: #d85654;
+    color: white;
+    border-radius: 30px;
+    padding: 6px 15px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    border: none;
+    font-size: 0.9rem;
+}
+.btn-danger-custom:hover {
+    background-color: #c44543;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+    background: white;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Stats */
+.stats-section {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.stat-card {
+    background: linear-gradient(135deg, #b7b377, #8c8a62);
+    color: white;
+    padding: 25px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-family: 'Merriweather', serif;
+    margin-bottom: 5px;
+}
+
+/* Last Visit */
+.last-visit-card {
+    background: linear-gradient(135deg, #b7b377, #8c8a62);
+    color: white;
+    padding: 25px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+/* Favorites Items */
+.favorite-item {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+    animation: fadeIn 0.5s ease forwards;
+}
+.favorite-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+.favorite-info h5 {
+    color: #5a5a42;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+.favorite-date {
+    color: #7a7a7a;
+    font-size: 0.9rem;
+}
+.no-favorites {
+    text-align: center;
+    padding: 60px 20px;
+    color: #7a7a7a;
+}
+.no-favorites .emoji {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* Footer */
+footer {
+    background-color: #5f634f;
+    color: #eaeaea;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+    font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

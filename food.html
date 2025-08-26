@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Street Food | Food Details</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts (match index.html) -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* Site-wide */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #faf8f2 url("https://www.transparenttextures.com/patterns/cubes.png");
+      color: #2b2b2b;
+    }
+
+    /* Headings */
+    h1, h2, h3, h4, h5 {
+      font-family: 'Merriweather', serif;
+      color: #5a5a42;
+    }
+
+    /* Navbar (match index.html styles & hover underline) */
+    .navbar {
+      background-color: #5f634f;
+    }
+    .navbar-brand, .nav-link {
+      color: #fdfdfd !important;
+      font-weight: 500;
+    }
+    .navbar-brand {
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    .navbar-brand:hover {
+      color: #b7b377 !important;
+      transform: scale(1.15);
+      text-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+    }
+    .nav-link {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .nav-link:hover {
+      transform: translateY(-3px);
+      color: #b7b377 !important;
+    }
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: #b7b377;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Hero */
+    .hero {
+      color: white;
+      height: 40vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      transition: background-image 0.5s ease;
+      background-size: cover;
+      background-position: center;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.5);
+      border-radius: 0;
+    }
+    .hero .container {
+      position: relative;
+      z-index: 2;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Buttons */
+    .btn-custom {
+      background-color: #b7b377;
+      color: #2b2b2b;
+      border-radius: 30px;
+      padding: 8px 20px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+    .btn-custom:hover {
+      background-color: #8c8a62;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Cards */
+    .card {
+      border: none;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+      height: 100%;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card-img {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    /* Food image */
+    .food-detail-img {
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+
+    /* Lists & panels */
+    .ingredients-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .ingredients-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .ingredients-list li:last-child {
+      border-bottom: none;
+    }
+    .related-foods, .api-section {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    /* Pills for food nav */
+    .food-nav .nav-link {
+      color: #5a5a42 !important;
+      font-weight: 600;
+      border-radius: 20px;
+      margin: 0 5px;
+      background-color: #f1eee6;
+    }
+    .food-nav .nav-link.active {
+      background-color: #b7b377;
+      color: white !important;
+    }
+
+    /* Nutrition facts */
+    .nutrition-facts {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .nutrition-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px dashed #dee2e6;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #5f634f;
+      color: #eaeaea;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 50px;
+      font-size: 0.9rem;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Small screens tweaks */
+    @media (max-width: 767px) {
+      .hero h1 { font-size: 2.2rem; }
+      .food-detail-img { height: 260px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar (matches index/explore) -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        Street Food©
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style="filter: invert(1)"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="explore.html">Explore</a></li>
+          <li class="nav-item"><a class="nav-link active" href="food.html">Food Detail</a></li>
+          <li class="nav-item"><a class="nav-link" href="malaysia.html">Malaysian Food</a></li>
+          <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="favorites.html">Favorites</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section - Will be dynamically updated by JS (heroImage from foodData) -->
+  <section class="hero" id="food-hero">
+    <div class="container">
+      <h1 id="food-title">Tacos</h1>
+      <p class="lead" id="food-tagline">A traditional Mexican dish with global popularity</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container my-5">
+    <!-- Food Navigation -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <ul class="nav nav-pills justify-content-center food-nav flex-wrap" id="foodTabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" data-food="tacos">Tacos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-food="takoyaki">Takoyaki</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-food="banhmi">Bánh Mì</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-food="shawarma">Shawarma</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-food="churros">Churros</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Food Image and Basic Info -->
+      <div class="col-md-6 mb-4">
+        <!-- image path updated to images/ -->
+        <img id="food-image" src="images/taco.jpg" alt="Tacos" class="food-detail-img">
+        <div class="d-flex justify-content-center mt-3">
+          <!-- data-image updated to local images/ -->
+          <button class="btn btn-custom save-favorite" id="save-favorite-btn" data-food="Tacos" data-image="images/taco.jpg">
+            <i class="fas fa-heart me-1"></i> Save to Favorites
+          </button>
+        </div>
+      </div>
+
+      <!-- Food Description -->
+      <div class="col-md-6 mb-4">
+        <h2 id="food-name">Tacos</h2>
+        <p class="lead" id="food-description">A traditional Mexican dish consisting of a corn or wheat tortilla folded or rolled around a filling.</p>
+
+        <h4>History</h4>
+        <p id="food-history">Tacos have a long, rich history dating back to the Mexican silver mines in the 18th century. The word "taco" referred to the small charges miners would use to excavate ore. These were pieces of paper wrapped around gunpowder and inserted into holes carved in rock.</p>
+
+        <h4>Cultural Significance</h4>
+        <p id="food-culture">Today, tacos have become one of Mexico's most iconic cultural exports. They represent the diversity of Mexican cuisine with regional variations found throughout the country. From street stalls to high-end restaurants, tacos are enjoyed by people from all walks of life.</p>
+
+        <h4>Key Ingredients</h4>
+        <ul class="ingredients-list" id="food-ingredients">
+          <li><i class="fas fa-check-circle me-2 text-success"></i> Tortillas (corn or flour)</li>
+          <li><i class="fas fa-check-circle me-2 text-success"></i> Protein (beef, chicken, pork, or fish)</li>
+          <li><i class="fas fa-check-circle me-2 text-success"></i> Onions and cilantro</li>
+          <li><i class="fas fa-check-circle me-2 text-success"></i> Salsa or hot sauce</li>
+          <li><i class="fas fa-check-circle me-2 text-success"></i> Lime wedges</li>
+          <li><i class="fas fa-check-circle me-2 text-success"></i> Various toppings (lettuce, cheese, tomatoes)</li>
+        </ul>
+
+        <!-- Nutrition Facts -->
+        <div class="nutrition-facts mt-4">
+          <h4>Nutrition Facts (per serving)</h4>
+          <div class="nutrition-item">
+            <span>Calories</span>
+            <span id="nutrition-calories">226</span>
+          </div>
+          <div class="nutrition-item">
+            <span>Protein</span>
+            <span id="nutrition-protein">15g</span>
+          </div>
+          <div class="nutrition-item">
+            <span>Carbs</span>
+            <span id="nutrition-carbs">20g</span>
+          </div>
+          <div class="nutrition-item">
+            <span>Fat</span>
+            <span id="nutrition-fat">10g</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Section - TheMealDB Integration -->
+    <div class="api-section">
+      <h2 class="text-center mb-4" id="api-title">Taco Recipes from TheMealDB</h2>
+      <div id="recipe-results" class="row">
+        <div class="col-12 text-center">
+          <p>Loading recipes...</p>
+          <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Foods -->
+    <div class="related-foods">
+      <h2 class="text-center mb-4">Explore Other Street Foods</h2>
+      <div class="row g-4">
+        <!-- Takoyaki -->
+        <div class="col-md-4">
+          <div class="card">
+            <img src="images/takoyaki.jpg" class="card-img-top" alt="Takoyaki">
+            <div class="card-body">
+              <h5 class="card-title">Takoyaki</h5>
+              <p class="card-text">Japanese savory ball-shaped snack made of wheat flour batter and cooked with diced octopus.</p>
+              <a href="#" class="btn btn-custom" data-food="takoyaki">View Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Banh Mi -->
+        <div class="col-md-4">
+          <div class="card">
+            <img src="images/Banh Mi.jpg" class="card-img-top" alt="Banh Mi">
+            <div class="card-body">
+              <h5 class="card-title">Banh Mi</h5>
+              <p class="card-text">Vietnamese sandwich that features a combination of French and Vietnamese culinary influences.</p>
+              <a href="#" class="btn btn-custom" data-food="banhmi">View Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shawarma -->
+        <div class="col-md-4">
+          <div class="card">
+            <img src="images/shwarma.jpg" class="card-img-top" alt="Shawarma">
+            <div class="card-body">
+              <h5 class="card-title">Shawarma</h5>
+              <p class="card-text">Middle Eastern dish of thinly sliced meat stacked in a cone-like shape and roasted on a slowly-turning vertical rotisserie.</p>
+              <a href="#" class="btn btn-custom" data-food="shawarma">View Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Street Food Project</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Food data - contains all information for each dish
+    // NOTE: only image/heroImage fields updated to point to images/ folder
+    const foodData = {
+      'tacos': {
+        title: 'Tacos',
+        tagline: 'A traditional Mexican dish with global popularity',
+        image: 'images/taco.jpg',
+        heroImage: 'images/taco.jpg',
+        description: 'A traditional Mexican dish consisting of a corn or wheat tortilla folded or rolled around a filling.',
+        history: 'Tacos have a long, rich history dating back to the Mexican silver mines in the 18th century. The word "taco" referred to the small charges miners would use to excavate ore. These were pieces of paper wrapped around gunpowder and inserted into holes carved in rock.',
+        culture: 'Today, tacos have become one of Mexico\'s most iconic cultural exports. They represent the diversity of Mexican cuisine with regional variations found throughout the country. From street stalls to high-end restaurants, tacos are enjoyed by people from all walks of life.',
+        ingredients: [
+          'Tortillas (corn or flour)',
+          'Protein (beef, chicken, pork, or fish)',
+          'Onions and cilantro',
+          'Salsa or hot sauce',
+          'Lime wedges',
+          'Various toppings (lettuce, cheese, tomatoes)'
+        ],
+        nutrition: {
+          calories: 226,
+          protein: '15g',
+          carbs: '20g',
+          fat: '10g'
+        },
+        apiSearch: 'Mexican'
+      },
+      'takoyaki': {
+        title: 'Takoyaki',
+        tagline: 'Japanese savory ball-shaped snack',
+        image: 'images/takoyaki.jpg',
+        heroImage: 'images/takoyaki.jpg',
+        description: 'Japanese savory ball-shaped snack made of wheat flour batter and cooked with diced octopus.',
+        history: 'Takoyaki was first popularized in Osaka, Japan, where a street vendor named Tomekichi Endo is credited with its invention in 1935. It quickly became a popular street food throughout the Kansai region and later across all of Japan.',
+        culture: 'Takoyaki is especially popular in the Kansai region but can be found everywhere in Japan. It is a staple at festivals, street food stalls, and specialty restaurants. Many Japanese households have a special takoyaki pan to make it at home for family gatherings.',
+        ingredients: [
+          'Wheat flour batter',
+          'Diced octopus (tako)',
+          'Tenkashi (tempura scraps)',
+          'Green onion',
+          'Pickled ginger',
+          'Takoyaki sauce and mayonnaise',
+          'Bonito flakes and seaweed flakes'
+        ],
+        nutrition: {
+          calories: 180,
+          protein: '8g',
+          carbs: '22g',
+          fat: '7g'
+        },
+        apiSearch: 'Japanese'
+      },
+      'banhmi': {
+        title: 'Banh Mi',
+        tagline: 'Vietnamese sandwich with French influence',
+        image: 'images/Banh Mi.jpg',
+        heroImage: 'images/Banh Mi.jpg',
+        description: 'Vietnamese sandwich that features a combination of French and Vietnamese culinary influences.',
+        history: 'BÃ¡nh mÃ¬ originated during the French colonial period in Vietnam in the late 19th century. The French introduced baguettes to Vietnam, which were then adapted by Vietnamese cooks who added local ingredients like cilantro, cucumber, and pickled vegetables.',
+        culture: 'After the Vietnam War, Vietnamese refugees brought bÃ¡nh mÃ¬ to other countries, where it has gained international popularity. It represents a fusion of French and Vietnamese culinary traditions and is a symbol of Vietnamese cultural adaptation and resilience.',
+        ingredients: [
+          'Baguette (Vietnamese style)',
+          'Pork, chicken, or pÃ¢tÃ©',
+          'Pickled carrots and daikon',
+          'Cucumber slices',
+          'Cilantro',
+          'Mayonnaise',
+          'Chili peppers'
+        ],
+        nutrition: {
+          calories: 450,
+          protein: '20g',
+          carbs: '55g',
+          fat: '15g'
+        },
+        apiSearch: 'Vietnamese'
+      },
+      'shawarma': {
+        title: 'Shawarma',
+        tagline: 'Middle Eastern sliced meat delight',
+        image: 'images/shwarma.jpg',
+        heroImage: 'images/shwarma.jpg',
+        description: 'Middle Eastern dish of thinly sliced meat stacked in a cone-like shape and roasted on a slowly-turning vertical rotisserie.',
+        history: 'Shawarma originated in the Ottoman Empire, in what is now Turkey, during the 18th or 19th century. The name comes from the Turkish word "Ã§evirme", meaning "turning", referring to the rotating rotisserie. It was influenced by similar dishes like the Greek gyros.',
+        culture: 'Shawarma is a popular street food throughout the Middle East and has spread worldwide. It is commonly eaten in pita bread or wrap with vegetables and sauce. In many Middle Eastern countries, shawarma stands are as common as fast-food restaurants in the West.',
+        ingredients: [
+          'Thinly sliced lamb, chicken, or beef',
+          'Pita or flatbread',
+          'Tahini or garlic sauce',
+          'Tomatoes',
+          'Cucumbers',
+          'Onions',
+          'Pickles'
+        ],
+        nutrition: {
+          calories: 320,
+          protein: '25g',
+          carbs: '30g',
+          fat: '12g'
+        },
+        apiSearch: 'Middle Eastern'
+      },
+      'churros': {
+        title: 'Churros',
+        tagline: 'Spanish fried-dough pastry',
+        image: 'images/churros.jpg',
+        heroImage: 'images/churros.jpg',
+        description: 'Spanish fried-dough pastry snack, typically dusted with sugar and cinnamon.',
+        history: 'Churros are believed to have been brought to Europe from China by Portuguese explorers. The Spanish adapted the youtiao pastry into the star-shaped churro. Spanish shepherds would make them easily over fire in the mountains as they lacked access to bakeries.',
+        culture: 'In Spain, churros are traditionally eaten for breakfast dipped in hot chocolate or cafÃ© con leche. They are also popular as street food and at fairs. From Spain, churros spread to Latin America and the Philippines, where they also became popular snacks.',
+        ingredients: [
+          'Flour',
+          'Water',
+          'Salt',
+          'Sugar',
+          'Cinnamon',
+          'Oil for frying',
+          'Chocolate sauce for dipping'
+        ],
+        nutrition: {
+          calories: 280,
+          protein: '3g',
+          carbs: '36g',
+          fat: '15g'
+        },
+        apiSearch: 'Spanish'
+      }
+    };
+
+    $(document).ready(function(){
+      // Fallback for environments without localStorage
+      if (typeof Storage === "undefined") {
+        window.localStorage = {
+          data: {},
+          getItem: function(key) { return this.data[key] || null; },
+          setItem: function(key, value) { this.data[key] = value; },
+          removeItem: function(key) { delete this.data[key]; }
+        };
+      }
+
+      // Function to get URL parameters
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
+      // Check if a specific food is requested via URL parameter
+      const foodParam = getQueryParam('food');
+      const initialFood = foodParam && foodData[foodParam] ? foodParam : 'tacos';
+
+      // Load the initial food
+      loadFoodDetails(initialFood);
+
+      // Set the active tab
+      $(`#foodTabs .nav-link[data-food="${initialFood}"]`).addClass('active');
+
+      // Tab click event
+      $('#foodTabs .nav-link').click(function(e) {
+        e.preventDefault();
+        const food = $(this).data('food');
+
+        // Update active tab
+        $('#foodTabs .nav-link').removeClass('active');
+        $(this).addClass('active');
+
+        // Load food details
+        loadFoodDetails(food);
+
+        // Update URL without reloading page
+        const newUrl = window.location.protocol + "//" + window.location.host +
+                       window.location.pathname + '?food=' + food;
+        window.history.pushState({path: newUrl}, '', newUrl);
+      });
+
+      // Related food click event
+      $('.related-foods .btn-custom').click(function(e) {
+        e.preventDefault();
+        const food = $(this).data('food');
+
+        // Update active tab
+        $('#foodTabs .nav-link').removeClass('active');
+        $(`#foodTabs .nav-link[data-food="${food}"]`).addClass('active');
+
+        // Load food details
+        loadFoodDetails(food);
+
+        // Update URL without reloading page
+        const newUrl = window.location.protocol + "//" + window.location.host +
+                       window.location.pathname + '?food=' + food;
+        window.history.pushState({path: newUrl}, '', newUrl);
+      });
+
+      // Function to load food details
+      function loadFoodDetails(food) {
+        if (!foodData[food]) return;
+
+        const data = foodData[food];
+
+        // Update page content
+        document.title = `Street Food | ${data.title}`;
+        $('#food-title').text(data.title);
+        $('#food-tagline').text(data.tagline);
+        $('#food-hero').css('background-image', `url(${data.heroImage})`);
+        $('#food-image').attr('src', data.image).attr('alt', data.title);
+        $('#food-name').text(data.title);
+        $('#food-description').text(data.description);
+        $('#food-history').text(data.history);
+        $('#food-culture').text(data.culture);
+
+        // Update ingredients list
+        let ingredientsHtml = '';
+        data.ingredients.forEach(ingredient => {
+          ingredientsHtml += `<li><i class="fas fa-check-circle me-2 text-success"></i> ${ingredient}</li>`;
+        });
+        $('#food-ingredients').html(ingredientsHtml);
+
+        // Update nutrition facts
+        $('#nutrition-calories').text(data.nutrition.calories);
+        $('#nutrition-protein').text(data.nutrition.protein);
+        $('#nutrition-carbs').text(data.nutrition.carbs);
+        $('#nutrition-fat').text(data.nutrition.fat);
+
+        // Update favorite button
+        $('#save-favorite-btn')
+          .data('food', data.title)
+          .data('image', data.image);
+
+        // Update API section title
+        $('#api-title').text(`${data.title} Recipes from TheMealDB`);
+
+        // Fetch recipes
+        fetchRecipes(data.apiSearch);
+
+        // Initialize favorites
+        initializeFavorites();
+      }
+
+      // Initialize favorite buttons based on saved items
+      function initializeFavorites() {
+        let favorites = JSON.parse(localStorage.getItem('malaysianFoodFavorites')) || [];
+        const foodName = $('#save-favorite-btn').data('food');
+        const isFavorite = favorites.some(item => item.name === foodName);
+
+        if (isFavorite) {
+          $('#save-favorite-btn').addClass('saved');
+          $('#save-favorite-btn').html('<i class="fas fa-heart me-1" style="color: #FF0000;"></i> Saved');
+        } else {
+          $('#save-favorite-btn').removeClass('saved');
+          $('#save-favorite-btn').html('<i class="fas fa-heart me-1"></i> Save to Favorites');
+        }
+      }
+
+      // Initialize on page load
+      initializeFavorites();
+
+      // Save to favorites functionality
+      $("#save-favorite-btn").click(function(){
+        const foodName = $(this).data('food');
+        const foodImage = $(this).data('image');
+        const now = new Date();
+        const timestamp = now.toLocaleString('en-MY', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          timeZone: 'Asia/Kuala_Lumpur'
+        });
+
+        let favorites = JSON.parse(localStorage.getItem('malaysianFoodFavorites')) || [];
+
+        // Update last visit info
+        const lastVisit = {
+          food: foodName,
+          date: timestamp
+        };
+        localStorage.setItem('lastVisitedFood', JSON.stringify(lastVisit));
+
+        // Check if already in favorites
+        const existingIndex = favorites.findIndex(item => item.name === foodName);
+
+        if (existingIndex === -1) {
+          // Add to favorites
+          favorites.push({
+            name: foodName,
+            addedDate: timestamp
+          });
+          localStorage.setItem('malaysianFoodFavorites', JSON.stringify(favorites));
+
+          // Update button appearance
+          $(this).addClass('saved');
+          $(this).html('<i class="fas fa-heart me-1" style="color: #FF0000;"></i> Saved');
+
+          alert(foodName + " has been added to your favorites!");
+        } else {
+          // Remove from favorites
+          favorites.splice(existingIndex, 1);
+          localStorage.setItem('malaysianFoodFavorites', JSON.stringify(favorites));
+
+          // Update button appearance
+          $(this).removeClass('saved');
+          $(this).html('<i class="fas fa-heart me-1"></i> Save to Favorites');
+
+          alert(foodName + " has been removed from your favorites!");
+        }
+      });
+
+      // Fetch recipes from TheMealDB API
+      function fetchRecipes(cuisine) {
+        $('#recipe-results').html(`
+          <div class="col-12 text-center">
+            <p>Loading recipes...</p>
+            <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `);
+
+        // Since TheMealDB doesn't have a specific category for each cuisine, we'll search by area
+        $.ajax({
+          url: `https://www.themealdb.com/api/json/v1/1/filter.php?a=${cuisine}`,
+          method: 'GET',
+          success: function(response) {
+            if (response.meals) {
+              displayRecipes(response.meals.slice(0, 3)); // Show first 3 results
+            } else {
+              $('#recipe-results').html('<p class="text-center">No recipes found. Please try again later.</p>');
+            }
+          },
+          error: function() {
+            $('#recipe-results').html('<p class="text-center">Failed to load recipes. Please check your connection.</p>');
+          }
+        });
+      }
+
+      // Display recipes in the API section
+      function displayRecipes(meals) {
+        let html = '';
+
+        meals.forEach(meal => {
+          html += `
+            <div class="col-md-4">
+              <div class="card h-100">
+                <img src="${meal.strMealThumb}" class="card-img-top" alt="${meal.strMeal}">
+                <div class="card-body">
+                  <h5 class="card-title">${meal.strMeal}</h5>
+                  <button class="btn btn-custom view-recipe" data-meal-id="${meal.idMeal}">
+                    View Recipe
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        $('#recipe-results').html(html);
+
+        // Add event listeners to the view recipe buttons
+        $('.view-recipe').click(function() {
+          const mealId = $(this).data('meal-id');
+          fetchRecipeDetails(mealId);
+        });
+      }
+
+      // Fetch detailed recipe information
+      function fetchRecipeDetails(mealId) {
+        $.ajax({
+          url: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`,
+          method: 'GET',
+          success: function(response) {
+            if (response.meals) {
+              displayRecipeDetails(response.meals[0]);
+            }
+          },
+          error: function() {
+            alert('Failed to load recipe details. Please try again later.');
+          }
+        });
+      }
+
+      // Display detailed recipe information in a modal
+      function displayRecipeDetails(meal) {
+        let ingredients = '';
+
+        // Compile ingredients and measurements
+        for (let i = 1; i <= 20; i++) {
+          if (meal[`strIngredient${i}`] && meal[`strIngredient${i}`].trim() !== '') {
+            ingredients += `<li>${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}</li>`;
+          }
+        }
+
+        const modalHtml = `
+          <div class="modal fade" id="recipeModal" tabindex="-1" aria-labelledby="recipeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="recipeModalLabel">${meal.strMeal}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <img src="${meal.strMealThumb}" class="img-fluid rounded" alt="${meal.strMeal}">
+                    </div>
+                    <div class="col-md-6">
+                      <h5>Ingredients:</h5>
+                      <ul>${ingredients}</ul>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <h5>Instructions:</h5>
+                      <p>${meal.strInstructions}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-custom" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Remove existing modal if any
+        $('#recipeModal').remove();
+
+        // Append new modal to body and show it
+        $('body').append(modalHtml);
+        $('#recipeModal').modal('show');
+      }
+
+      // Fetch recipes when page loads
+      // This is now handled in loadFoodDetails()
+    });
+  </script>
+</body>
+</html>

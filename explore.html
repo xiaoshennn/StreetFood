@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Street Food | Explore</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #faf8f2 url("https://www.transparenttextures.com/patterns/cubes.png");
+      color: #2b2b2b;
+    }
+    h1, h2, h3, h4, h5 {
+      font-family: 'Merriweather', serif;
+      color: #5a5a42;
+    }
+
+    /* Navbar styles (same as index.html) */
+    .navbar {
+      background-color: #5f634f;
+    }
+    .navbar-brand, .nav-link {
+      color: #fdfdfd !important;
+      font-weight: 500;
+    }
+    .navbar-brand {
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    .navbar-brand:hover {
+      color: #b7b377 !important;
+      transform: scale(1.15);
+      text-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+    }
+    .nav-link {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .nav-link:hover {
+      transform: translateY(-3px);
+      color: #b7b377 !important;
+    }
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: #b7b377;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Header accent */
+    .explore-header {
+      background: linear-gradient(to right, #f3f1e1, #faf8f2);
+      padding: 40px 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #b7b377;
+    }
+
+    /* Card styles */
+    .card {
+      border: none;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      text-align: center;
+      background: #fff;
+      transition: all 0.25s ease;
+    }
+    .card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+    .card img {
+      max-height: 160px;
+      object-fit: contain;
+      padding: 16px;
+    }
+    .country-label {
+      font-weight: 600;
+      margin: 8px 0;
+      color: #444;
+    }
+    .btn-custom {
+      background-color: #b7b377;
+      color: #2b2b2b;
+      border-radius: 30px;
+      padding: 6px 16px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+    .btn-custom:hover {
+      background-color: #8c8a62;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Section background */
+    main.container {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 40px 30px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    }
+
+    footer {
+      background-color: #5f634f;
+      color: #eaeaea;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 50px;
+      font-size: 0.9rem;
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        Street Food©
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="explore.html">Explore</a></li>
+          <li class="nav-item"><a class="nav-link" href="food.html">Food Detail</a></li>
+          <li class="nav-item"><a class="nav-link" href="malaysia.html">Malaysian Food</a></li>
+          <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="favorites.html">Favorites</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="container text-center my-5 explore-header">
+    <h1>Explore Global Street Foods</h1>
+    <p class="lead">Discover iconic street foods from around the world, starting with these five countries.</p>
+  </header>
+
+  <!-- Divider -->
+  <div class="divider my-4">🍴</div>
+
+  <!-- Country Cards -->
+  <main class="container my-5">
+    <div class="row g-4">
+      <!-- Mexico -->
+      <div class="col-md-4">
+        <div class="card p-3">
+          <img src="images/mexico.png" alt="Map of Mexico for tacos">
+          <div class="country-label">🇲🇽 Mexico</div>
+          <h5 class="card-title">Tacos</h5>
+          <p class="card-text">Tortillas packed with savory fillings and fresh toppings.</p>
+          <a href="food.html?food=Tacos" class="btn btn-custom">View More</a>
+        </div>
+      </div>
+
+      <!-- Japan -->
+      <div class="col-md-4">
+        <div class="card p-3">
+          <img src="images/japan.png" alt="Map of Japan for Takoyaki">
+          <div class="country-label">🇯🇵 Japan</div>
+          <h5 class="card-title">Takoyaki</h5>
+          <p class="card-text">Crispy golden balls filled with octopus and topped with sauce.</p>
+          <a href="food.html?food=Takoyaki" class="btn btn-custom">View More</a>
+        </div>
+      </div>
+
+      <!-- Vietnam -->
+      <div class="col-md-4">
+        <div class="card p-3">
+          <img src="images/vietnam.png" alt="Map of Vietnam for Bánh Mì">
+          <div class="country-label">🇻🇳 Vietnam</div>
+          <h5 class="card-title">Bánh Mì</h5>
+          <p class="card-text">Crispy baguette with savory fillings and fresh herbs.</p>
+          <a href="food.html?food=BanhMi" class="btn btn-custom">View More</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 justify-content-center mt-2">
+      <!-- Spain -->
+      <div class="col-md-4">
+        <div class="card p-3">
+          <img src="images/spain.png" alt="Map of Spain for Churros">
+          <div class="country-label">🇪🇸 Spain</div>
+          <h5 class="card-title">Churros</h5>
+          <p class="card-text">Fried dough sticks coated with sugar, often dipped in chocolate.</p>
+          <a href="food.html?food=Churros" class="btn btn-custom">View More</a>
+        </div>
+      </div>
+
+      <!-- Middle East -->
+      <div class="col-md-4">
+        <div class="card p-3">
+          <img src="images/middleeast.png" alt="Map of Middle East for Shawarma">
+          <div class="country-label">🥙 Middle East</div>
+          <h5 class="card-title">Shawarma</h5>
+          <p class="card-text">Marinated meat sliced thin and wrapped in bread with veggies.</p>
+          <a href="food.html?food=Shawarma" class="btn btn-custom">View More</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Street Food Project</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
